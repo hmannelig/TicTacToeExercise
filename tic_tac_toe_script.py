@@ -25,6 +25,9 @@ class Player:
 class CPU(Player):
 
     def make_move(self, pos_taken, board_representation):
+
+        print(str.format("It's {}'s turn! He's not the sharpest tool in the shed... *Broken machine sounds* placing {}", self.name, self.token))
+
         pos = random.randint(0, 8)
 
         while pos_taken[pos]:
@@ -55,13 +58,21 @@ class EnhancedCPU(Player):
 
     def make_move(self, pos_taken, board_representation):
 
+        print(str.format("It's {}'s turn! Will it make an impressive move?!?", self.name))
+
         winning_move = self.__get_winning_move(pos_taken)
 
         if winning_move >= 0:
+
+            print(str.format("{}: using my advanced calculations, I found the most optimal move!", self.name))
+
             pos_taken[winning_move] = self.token
             board_representation[winning_move] = self.token
 
         else:
+
+            print(str.format("{}: *Broken machine sounds* Dumb move.", self.name))
+
             pos = random.randint(0, 8)
 
             while pos_taken[pos]:
@@ -226,37 +237,38 @@ def is_diagonal_strike(player: Player, board_pos):
 
 
 def is_winner(player: Player, board_pos):
-    print("Checking if", Player.name, "is the winner...")
-    return is_horizontal_strike(player, board_pos) or is_vertical_strike(Player, board_pos) or is_diagonal_strike(player, board_pos)
+    print("Checking if", player.name, "is the winner...")
+    return is_horizontal_strike(player, board_pos) or is_vertical_strike(player, board_pos) or is_diagonal_strike(player, board_pos)
 
 
 def run_game(player_one: Player, player_two: Player):
     game_round = 1
-    max_rounds = 6
+    max_rounds = 10
     pos_taken = ['', '', '', '', '', '', '', '', '']
     board_representation = ['1', '2', '3',
                             '4', '5', '6',
                             '7', '8', '9']
-    while game_round < max_rounds:
+    is_running = True
+
+    while is_running:
         print("\n", game_round, "° ROUND")
 
-        display_board(board_representation)
-        player_one.make_move(pos_taken, board_representation)
-
-        if is_winner(player_one, pos_taken):
-            display_board(board_representation)
-            print(str.format("{} is the winner! Game is over.", player_one.name))
-            break
+        player = (player_one if game_round % 2 != 0 else player_two)
 
         display_board(board_representation)
-        player_two.make_move(pos_taken, board_representation)
+        player.make_move(pos_taken, board_representation)
 
-        if is_winner(player_two, pos_taken):
+        if is_winner(player, pos_taken):
             display_board(board_representation)
-            print(str.format("{} is the winner! Game is over.", player_two.name))
-            break
+            print(str.format("{} is the winner! Game is over.", player.name))
+            is_running = False
 
         game_round += 1
+
+        if game_round == max_rounds:
+            print("There were no winners, it's a tie!")
+            is_running = False
+
 
 
 def start_game():
