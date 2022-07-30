@@ -74,22 +74,23 @@ class EnhancedCPU(Player):
 
         horizontal_move = self.__get_horizontal_move(pos_taken=pos_taken)
         if horizontal_move >= 0:
-            print("The enhanced CPU found a winning horizontal move in position: ", horizontal_move)
+            print("The enhanced CPU found a winning horizontal move in position: ", horizontal_move + 1)
             return horizontal_move
 
         vertical_move = self.__get_vertical_move(pos_taken=pos_taken)
         if vertical_move >= 0:
-            print("The enhanced CPU found a winning vertical move in position: ", vertical_move)
+            print("The enhanced CPU found a winning vertical move in position: ", vertical_move + 1)
             return vertical_move
 
         diagonal_move = self.__get_diagonal_move(pos_taken=pos_taken)
         if diagonal_move >= 0:
-            print("The enhanced CPU found a winning diagonal move in position: ", diagonal_move)
+            print("The enhanced CPU found a winning diagonal move in position: ", diagonal_move + 1)
             return diagonal_move
 
         return -1
 
     def __get_horizontal_move(self, pos_taken):
+
         first_row, second_row, third_row = self.__get_positions_as_string(pos=pos_taken[:3]), \
                                            self.__get_positions_as_string(pos=pos_taken[3:6]), \
                                            self.__get_positions_as_string(pos=pos_taken[6:])
@@ -112,6 +113,7 @@ class EnhancedCPU(Player):
         return -1
 
     def __get_vertical_move(self, pos_taken):
+
         first_column, second_column, third_column = self.__get_positions_as_string(pos=pos_taken,
                                                                                    start_pos=0,
                                                                                    max_pos=7,
@@ -167,7 +169,6 @@ class EnhancedCPU(Player):
         return -1
 
     def __get_positions_as_string(self, **kwargs):
-        string = ''
         pos = kwargs["pos"]
 
         if kwargs.get("start_pos"):
@@ -204,40 +205,40 @@ def display_board(board):
     print("\n", f_row, split, s_row, split, t_row, "\n", sep="\n")
 
 
-def is_horizontal_strike(Player, board_pos):
+def is_horizontal_strike(player: Player, board_pos):
     first_row, second_row, third_row = ''.join(board_pos[:3]), \
                                        ''.join(board_pos[3:6]), \
                                        ''.join(board_pos[6:])
-    return Player.token * 3 in [first_row, second_row, third_row]
+    return player.token * 3 in [first_row, second_row, third_row]
 
 
-def is_vertical_strike(Player, board_pos):
+def is_vertical_strike(player: Player, board_pos):
     first_column, second_column, third_column = ''.join([board_pos[n] for n in range(0, 7, 3)]), \
                                                 ''.join([board_pos[n] for n in range(1, 8, 3)]), \
                                                 ''.join([board_pos[n] for n in range(2, 9, 3)])
-    return Player.token * 3 in [first_column, second_column, third_column]
+    return player.token * 3 in [first_column, second_column, third_column]
 
 
-def is_diagonal_strike(Player, board_pos):
+def is_diagonal_strike(player: Player, board_pos):
     descending_diagonal, ascending_diagonal = ''.join([board_pos[n] for n in range(0, 9, 4)]), \
                                               ''.join([board_pos[n] for n in range(2, 7, 2)])
-    return Player.token * 3 in [descending_diagonal, ascending_diagonal]
+    return player.token * 3 in [descending_diagonal, ascending_diagonal]
 
 
-def is_winner(Player, board_pos):
+def is_winner(player: Player, board_pos):
     print("Checking if", Player.name, "is the winner...")
-    return is_horizontal_strike(Player, board_pos) or is_vertical_strike(Player, board_pos) or is_diagonal_strike(Player, board_pos)
+    return is_horizontal_strike(player, board_pos) or is_vertical_strike(Player, board_pos) or is_diagonal_strike(player, board_pos)
 
 
 def run_game(player_one: Player, player_two: Player):
-    rounds = 1
+    game_round = 1
     max_rounds = 6
     pos_taken = ['', '', '', '', '', '', '', '', '']
     board_representation = ['1', '2', '3',
                             '4', '5', '6',
                             '7', '8', '9']
-    while rounds < max_rounds:
-        print("\n", rounds, "° ROUND")
+    while game_round < max_rounds:
+        print("\n", game_round, "° ROUND")
 
         display_board(board_representation)
         player_one.make_move(pos_taken, board_representation)
@@ -255,7 +256,7 @@ def run_game(player_one: Player, player_two: Player):
             print(str.format("{} is the winner! Game is over.", player_two.name))
             break
 
-        rounds += 1
+        game_round += 1
 
 
 def start_game():
