@@ -25,8 +25,8 @@ class Player:
 class CPU(Player):
 
     def make_move(self, pos_taken, board_representation):
-
-        print(str.format("It's {}'s turn! He's not the sharpest tool in the shed... *Broken machine sounds* placing {}", self.name, self.token))
+        print(str.format("It's {}'s turn! He's not the sharpest tool in the shed... *Broken machine sounds* placing {}",
+                         self.name, self.token))
 
         pos = random.randint(0, 8)
 
@@ -200,7 +200,7 @@ def display_menu():
           "|  -2: Player VS CPU           |",
           "|  -3: Player VS CPU (Hard)    |",
           "|  -4: Exit                    |",
-          "|------------------------------|", sep="\n")
+          "|------------------------------|\n", sep="\n")
 
 
 def display_board(board):
@@ -238,7 +238,8 @@ def is_diagonal_strike(player: Player, board_pos):
 
 def is_winner(player: Player, board_pos):
     print("Checking if", player.name, "is the winner...")
-    return is_horizontal_strike(player, board_pos) or is_vertical_strike(player, board_pos) or is_diagonal_strike(player, board_pos)
+    return is_horizontal_strike(player, board_pos) or is_vertical_strike(player, board_pos) or is_diagonal_strike(
+        player, board_pos)
 
 
 def run_game(player_one: Player, player_two: Player):
@@ -260,7 +261,7 @@ def run_game(player_one: Player, player_two: Player):
 
         if is_winner(player, pos_taken):
             display_board(board_representation)
-            print(str.format("{} is the winner! Game is over.", player.name))
+            print(str.format("{} is the winner! Game is over.\n", player.name))
             is_running = False
 
         game_round += 1
@@ -270,6 +271,19 @@ def run_game(player_one: Player, player_two: Player):
             is_running = False
 
 
+def get_user_input():
+
+    display_menu()
+    game_mode = -1
+
+    while game_mode not in [1, 2, 3, 4]:
+        game_mode = input(" >> Please, select an available game mode, or exit: ")
+        if not game_mode.isnumeric():
+            print(" >> Don't use letters or words, just numbers!")
+        else:
+            game_mode = int(game_mode)
+    return game_mode
+
 
 def start_game():
     player_1 = Player(name="Player 1", token="X")
@@ -278,19 +292,21 @@ def start_game():
     cpu = CPU(name="CPU", token="O")
     enhanced_cpu = EnhancedCPU(name="Enhanced CPU", token="O")
 
-    display_menu()
-
-    game_mode = int(input(" >> Please, select game mode: "))
+    game_mode = get_user_input()
 
     while game_mode != 4:
         if game_mode == 1:
             run_game(player_1, player_2)
-        elif game_mode == 2:
+
+        if game_mode == 2:
             run_game(player_1, cpu)
-        elif game_mode == 3:
+
+        if game_mode == 3:
             run_game(player_1, enhanced_cpu)
 
-    print("Exiting the program...")
+        game_mode = get_user_input()
+
+    print(" >> Exiting the program...")
     quit()
 
 
