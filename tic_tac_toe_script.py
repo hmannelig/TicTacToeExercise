@@ -55,11 +55,11 @@ class EnhancedCPU(Player):
 
     def make_move(self, pos_taken, board_representation):
 
-        smart_move = self.__check_winning_moves(pos_taken)
+        winning_move = self.__get_winning_move(pos_taken)
 
-        if smart_move >= 0:
-            pos_taken[smart_move] = self.token
-            board_representation[smart_move] = self.token
+        if winning_move >= 0:
+            pos_taken[winning_move] = self.token
+            board_representation[winning_move] = self.token
 
         else:
             pos = random.randint(0, 8)
@@ -70,7 +70,7 @@ class EnhancedCPU(Player):
             pos_taken[pos] = self.token
             board_representation[pos] = self.token
 
-    def __check_winning_moves(self, pos_taken):
+    def __get_winning_move(self, pos_taken):
 
         horizontal_move = self.__get_horizontal_move(pos_taken=pos_taken)
         if horizontal_move >= 0:
