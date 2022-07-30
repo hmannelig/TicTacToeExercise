@@ -11,11 +11,11 @@ class Player:
         self.token = token
 
     def make_move(self, pos_taken, board_representation):
-        question = str.format("It's {}'s turn, make your move! Where would you like to put {}? ", self.name, self.token)
+        question = str.format(" >> It's {}'s turn, make your move! Where would you like to put {}? ", self.name, self.token)
         pos = int(input(question)) - 1
 
         while pos_taken[pos]:
-            print(str.format("Position {} has been already taken, please, select another position!", pos))
+            print(str.format(" >> Position {} has been already taken, please, select another position!", pos))
             pos = int(input(question)) - 1
 
         pos_taken[pos] = self.token
@@ -25,7 +25,8 @@ class Player:
 class CPU(Player):
 
     def make_move(self, pos_taken, board_representation):
-        print(str.format("It's {}'s turn! He's not the sharpest tool in the shed... *Broken machine sounds* placing {}",
+        print(str.format(" >> It's {}'s turn! He's not the sharpest tool in the shed... "
+                         "*Broken machine sounds* placing {}",
                          self.name, self.token))
 
         pos = random.randint(0, 8)
@@ -58,21 +59,15 @@ class EnhancedCPU(Player):
 
     def make_move(self, pos_taken, board_representation):
 
-        print(str.format("It's {}'s turn! Will it make an impressive move?!?", self.name))
-
+        print(str.format(" >> It's {}'s turn! Will it make an impressive move?!?", self.name))
         winning_move = self.__get_winning_move(pos_taken)
 
         if winning_move >= 0:
-
-            print(str.format("{}: using my advanced calculations, I found the most optimal move!", self.name))
-
             pos_taken[winning_move] = self.token
             board_representation[winning_move] = self.token
 
         else:
-
-            print(str.format("{}: *Broken machine sounds* Dumb move.", self.name))
-
+            print(str.format(" >> {}: *Broken machine sounds* Dumb move.", self.name))
             pos = random.randint(0, 8)
 
             while pos_taken[pos]:
@@ -85,17 +80,17 @@ class EnhancedCPU(Player):
 
         horizontal_move = self.__get_horizontal_move(pos_taken=pos_taken)
         if horizontal_move >= 0:
-            print("The enhanced CPU found a winning horizontal move in position: ", horizontal_move + 1)
+            print(str.format(" >> {}: using my advanced calculations, the most optimal horizontal position is: {} !", self.name, horizontal_move + 1))
             return horizontal_move
 
         vertical_move = self.__get_vertical_move(pos_taken=pos_taken)
         if vertical_move >= 0:
-            print("The enhanced CPU found a winning vertical move in position: ", vertical_move + 1)
+            print(str.format(" >> {}: using my advanced calculations, the most optimal vertical position is: {} !", self.name, vertical_move + 1))
             return vertical_move
 
         diagonal_move = self.__get_diagonal_move(pos_taken=pos_taken)
         if diagonal_move >= 0:
-            print("The enhanced CPU found a winning diagonal move in position: ", diagonal_move + 1)
+            print(str.format(" >> {}: using my advanced calculations, the most optimal diagonal position is: {} !", self.name, diagonal_move + 1))
             return diagonal_move
 
         return -1
@@ -237,7 +232,7 @@ def is_diagonal_strike(player: Player, board_pos):
 
 
 def is_winner(player: Player, board_pos):
-    print("Checking if", player.name, "is the winner...")
+    print(" >> Checking if", player.name, "is the winner...")
     return is_horizontal_strike(player, board_pos) or is_vertical_strike(player, board_pos) or is_diagonal_strike(
         player, board_pos)
 
@@ -261,13 +256,13 @@ def run_game(player_one: Player, player_two: Player):
 
         if is_winner(player, pos_taken):
             display_board(board_representation)
-            print(str.format("{} is the winner! Game is over.\n", player.name))
+            print(str.format(" >> {} is the winner! Game is over.\n", player.name))
             is_running = False
 
         game_round += 1
 
         if game_round == max_rounds:
-            print("There were no winners, it's a tie!")
+            print(" >> There were no winners, it's a tie!")
             is_running = False
 
 
