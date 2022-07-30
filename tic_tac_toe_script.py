@@ -90,9 +90,9 @@ class EnhancedCPU(Player):
         return -1
 
     def __get_horizontal_move(self, pos_taken):
-        first_row, second_row, third_row = self.__get_simple_string(pos=pos_taken[:3]), \
-                                           self.__get_simple_string(pos=pos_taken[3:6]), \
-                                           self.__get_simple_string(pos=pos_taken[6:])
+        first_row, second_row, third_row = self.__get_positions_as_string(pos=pos_taken[:3]), \
+                                           self.__get_positions_as_string(pos=pos_taken[3:6]), \
+                                           self.__get_positions_as_string(pos=pos_taken[6:])
 
         if first_row in self.__winning_scenarios:
             smart_move = self.__winning_scenarios[first_row][0]
@@ -112,18 +112,18 @@ class EnhancedCPU(Player):
         return -1
 
     def __get_vertical_move(self, pos_taken):
-        first_column, second_column, third_column = self.__get_simple_string(pos=pos_taken,
-                                                                             start_pos=0,
-                                                                             max_pos=7,
-                                                                             pos_increase=3), \
-                                                    self.__get_simple_string(pos=pos_taken,
-                                                                             start_pos=1,
-                                                                             max_pos=8,
-                                                                             pos_increase=3), \
-                                                    self.__get_simple_string(pos=pos_taken,
-                                                                             start_pos=2,
-                                                                             max_pos=9,
-                                                                             pos_increase=3)
+        first_column, second_column, third_column = self.__get_positions_as_string(pos=pos_taken,
+                                                                                   start_pos=0,
+                                                                                   max_pos=7,
+                                                                                   pos_increase=3), \
+                                                    self.__get_positions_as_string(pos=pos_taken,
+                                                                                   start_pos=1,
+                                                                                   max_pos=8,
+                                                                                   pos_increase=3), \
+                                                    self.__get_positions_as_string(pos=pos_taken,
+                                                                                   start_pos=2,
+                                                                                   max_pos=9,
+                                                                                   pos_increase=3)
 
         if first_column in self.__winning_scenarios:
             smart_move = self.__winning_scenarios[first_column][1]
@@ -144,14 +144,14 @@ class EnhancedCPU(Player):
 
     def __get_diagonal_move(self, pos_taken):
 
-        descending_diagonal, ascending_diagonal = self.__get_simple_string(pos=pos_taken,
-                                                                           start_pos=0,
-                                                                           max_pos=9,
-                                                                           pos_increase=4), \
-                                                  self.__get_simple_string(pos=pos_taken,
-                                                                           start_pos=6,
-                                                                           max_pos=1,
-                                                                           pos_increase=-2)
+        descending_diagonal, ascending_diagonal = self.__get_positions_as_string(pos=pos_taken,
+                                                                                 start_pos=0,
+                                                                                 max_pos=9,
+                                                                                 pos_increase=4), \
+                                                  self.__get_positions_as_string(pos=pos_taken,
+                                                                                 start_pos=6,
+                                                                                 max_pos=1,
+                                                                                 pos_increase=-2)
 
         if descending_diagonal in self.__winning_scenarios:
             smart_move = self.__winning_scenarios[descending_diagonal][0] + \
@@ -166,7 +166,7 @@ class EnhancedCPU(Player):
 
         return -1
 
-    def __get_simple_string(self, **kwargs):
+    def __get_positions_as_string(self, **kwargs):
         string = ''
         pos = kwargs["pos"]
 
