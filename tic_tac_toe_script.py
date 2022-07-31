@@ -294,6 +294,7 @@ def start_game():
     game_mode = get_user_input()
 
     while game_mode != 4:
+
         if game_mode == 1:
             run_game(player_1, player_2)
 
