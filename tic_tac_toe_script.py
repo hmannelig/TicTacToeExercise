@@ -198,7 +198,8 @@ def display_menu():
           "|  -1: Player VS Player        |",
           "|  -2: Player VS CPU           |",
           "|  -3: Player VS CPU (Hard)    |",
-          "|  -4: Exit                    |",
+          "|  -4: Enhanced CPUs Battle    |",
+          "|  -5: Exit                    |",
           "|------------------------------|\n", sep="\n")
 
 
@@ -267,7 +268,8 @@ def run_game(player_one: Player, player_two: Player):
         game_round += 1
 
         if game_round == max_rounds:
-            print(" >> There were no winners, it's a tie!")
+            display_board(board_representation)
+            print(" >> There were no winners, it's a tie!\n")
             is_running = False
 
 
@@ -289,11 +291,12 @@ def start_game():
     player_2 = Player(name="Player 2", token="O")
 
     cpu = CPU(name="CPU", token="O")
-    enhanced_cpu = EnhancedCPU(name="Enhanced CPU", token="O")
+    enhanced_cpu = EnhancedCPU(name="CPU ONE", token="O")
+    enhanced_cpu_two = EnhancedCPU(name="CPU TWO", token="X")
 
     game_mode = get_user_input()
 
-    while game_mode != 4:
+    while game_mode != 5:
 
         if game_mode == 1:
             run_game(player_1, player_2)
@@ -303,6 +306,9 @@ def start_game():
 
         if game_mode == 3:
             run_game(player_1, enhanced_cpu)
+
+        if game_mode == 4:
+            run_game(enhanced_cpu, enhanced_cpu_two)
 
         game_mode = get_user_input()
 
