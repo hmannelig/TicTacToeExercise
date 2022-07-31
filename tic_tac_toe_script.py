@@ -11,7 +11,8 @@ class Player:
         self.token = token
 
     def make_move(self, pos_taken, board_representation):
-        question = str.format(" >> It's {}'s turn, make your move! Where would you like to put {}? ", self.name, self.token)
+        question = str.format(" >> It's {}'s turn, make your move! Where would you like to put {}? ", self.name,
+                              self.token)
         pos = int(input(question)) - 1
 
         while pos_taken[pos]:
@@ -76,26 +77,29 @@ class EnhancedCPU(Player):
             pos_taken[pos] = self.token
             board_representation[pos] = self.token
 
-    def __get_winning_move(self, pos_taken):
+    def __get_winning_move(self, pos_taken) -> int:
 
         horizontal_move = self.__get_horizontal_move(pos_taken=pos_taken)
         if horizontal_move >= 0:
-            print(str.format(" >> {}: using my advanced calculations, the most optimal horizontal position is: {} !", self.name, horizontal_move + 1))
+            print(str.format(" >> {}: using my advanced calculations, the most optimal horizontal position is: {} !",
+                             self.name, horizontal_move + 1))
             return horizontal_move
 
         vertical_move = self.__get_vertical_move(pos_taken=pos_taken)
         if vertical_move >= 0:
-            print(str.format(" >> {}: using my advanced calculations, the most optimal vertical position is: {} !", self.name, vertical_move + 1))
+            print(str.format(" >> {}: using my advanced calculations, the most optimal vertical position is: {} !",
+                             self.name, vertical_move + 1))
             return vertical_move
 
         diagonal_move = self.__get_diagonal_move(pos_taken=pos_taken)
         if diagonal_move >= 0:
-            print(str.format(" >> {}: using my advanced calculations, the most optimal diagonal position is: {} !", self.name, diagonal_move + 1))
+            print(str.format(" >> {}: using my advanced calculations, the most optimal diagonal position is: {} !",
+                             self.name, diagonal_move + 1))
             return diagonal_move
 
         return -1
 
-    def __get_horizontal_move(self, pos_taken):
+    def __get_horizontal_move(self, pos_taken) -> int:
 
         first_row, second_row, third_row = self.__get_positions_as_string(pos=pos_taken[:3]), \
                                            self.__get_positions_as_string(pos=pos_taken[3:6]), \
@@ -118,7 +122,7 @@ class EnhancedCPU(Player):
 
         return -1
 
-    def __get_vertical_move(self, pos_taken):
+    def __get_vertical_move(self, pos_taken) -> int:
 
         first_column, second_column, third_column = self.__get_positions_as_string(pos=pos_taken,
                                                                                    start_pos=0,
@@ -150,7 +154,7 @@ class EnhancedCPU(Player):
 
         return -1
 
-    def __get_diagonal_move(self, pos_taken):
+    def __get_diagonal_move(self, pos_taken) -> int:
 
         descending_diagonal, ascending_diagonal = self.__get_positions_as_string(pos=pos_taken,
                                                                                  start_pos=0,
@@ -174,7 +178,7 @@ class EnhancedCPU(Player):
 
         return -1
 
-    def __get_positions_as_string(self, **kwargs):
+    def __get_positions_as_string(self, **kwargs) -> str:
         pos = kwargs["pos"]
 
         if kwargs.get("start_pos"):
@@ -211,30 +215,31 @@ def display_board(board):
     print("\n", f_row, split, s_row, split, t_row, "\n", sep="\n")
 
 
-def is_horizontal_strike(player: Player, board_pos):
+def is_horizontal_strike(player: Player, board_pos) -> bool:
     first_row, second_row, third_row = ''.join(board_pos[:3]), \
                                        ''.join(board_pos[3:6]), \
                                        ''.join(board_pos[6:])
     return player.token * 3 in [first_row, second_row, third_row]
 
 
-def is_vertical_strike(player: Player, board_pos):
+def is_vertical_strike(player: Player, board_pos) -> bool:
     first_column, second_column, third_column = ''.join([board_pos[n] for n in range(0, 7, 3)]), \
                                                 ''.join([board_pos[n] for n in range(1, 8, 3)]), \
                                                 ''.join([board_pos[n] for n in range(2, 9, 3)])
     return player.token * 3 in [first_column, second_column, third_column]
 
 
-def is_diagonal_strike(player: Player, board_pos):
+def is_diagonal_strike(player: Player, board_pos) -> bool:
     descending_diagonal, ascending_diagonal = ''.join([board_pos[n] for n in range(0, 9, 4)]), \
                                               ''.join([board_pos[n] for n in range(2, 7, 2)])
     return player.token * 3 in [descending_diagonal, ascending_diagonal]
 
 
-def is_winner(player: Player, board_pos):
+def is_winner(player: Player, board_pos) -> bool:
     print(" >> Checking if", player.name, "is the winner...")
-    return is_horizontal_strike(player, board_pos) or is_vertical_strike(player, board_pos) or is_diagonal_strike(
-        player, board_pos)
+    return is_horizontal_strike(player, board_pos) or \
+           is_vertical_strike(player, board_pos) or \
+           is_diagonal_strike(player, board_pos)
 
 
 def run_game(player_one: Player, player_two: Player):
@@ -266,8 +271,7 @@ def run_game(player_one: Player, player_two: Player):
             is_running = False
 
 
-def get_user_input():
-
+def get_user_input() -> int:
     display_menu()
     game_mode = -1
 
